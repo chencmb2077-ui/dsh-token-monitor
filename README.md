@@ -27,8 +27,12 @@ Append to `$DSH_HOME/profiles/web/cordis.patch.yml`:
 ```yaml
 - insert:
     - id: token-monitor
-      name: ./token-monitor
+      name: ./token-monitor/index.js
 ```
+
+> Note: point `name` at the entry file, not the directory — the DSH loader imports
+> relative entries as ES modules, and Node does not support directory imports
+> (`ERR_UNSUPPORTED_DIR_IMPORT`).
 
 Restart `dsh web`. After boot:
 
@@ -74,8 +78,11 @@ $DSH_HOME/profiles/web/token-monitor/
 ```yaml
 - insert:
     - id: token-monitor
-      name: ./token-monitor
+      name: ./token-monitor/index.js
 ```
+
+> 注意：`name` 要指向入口文件而不是目录——DSH 加载器把相对路径当 ES 模块导入，
+> Node 不支持目录导入（`ERR_UNSUPPORTED_DIR_IMPORT`）。
 
 重启 `dsh web` 即可。插件启动后：
 
