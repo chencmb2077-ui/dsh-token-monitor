@@ -18,6 +18,7 @@ const FILES = [
   'README.md',
   'LICENSE',
   '.gitignore',
+  'cordis.patch.yml',
   'scripts/build-zip.mjs',
   'scripts/publish-github.mjs',
   'scripts/upload-github.mjs',
