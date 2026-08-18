@@ -14,7 +14,35 @@ A pure **static host plugin**: no client bundle, no build step, no Remote/typert
 - **Balance**: resolves `DEEPSEEK_API_KEY` through the credentials seam and queries `https://api.deepseek.com/user/balance` via a node subprocess (OpenSSL TLS, works under the sandbox). 60s cache + manual refresh. The API key never leaves the machine and never reaches the browser.
 - **Widget**: fixed bottom-right card; polls usage every 2.5s and balance every 60s; collapsible to a compact pill; uses theme CSS variables (`--dsw-alias-*`) so it adapts to light/dark themes.
 
-### Install
+### Install (CLI bundle — recommended)
+
+This package is a **DSH bundle**: its `package.json` declares `dsh.bundle.patch`, so
+installing it into a profile automatically joins it to the profile's bundle layers
+(`dsh plugin` reconciles `dsh.profile.bundles` for you).
+
+```bash
+# from a local checkout (pnpm copies the package into the profile):
+dsh plugin --profile web add file:/path/to/dsh-token-monitor
+
+# or straight from GitHub (no checkout needed):
+dsh plugin --profile web add github:chencmb2077-ui/dsh-token-monitor
+
+dsh web        # restart the profile so the bundle layer composes
+```
+
+Requires `pnpm` on PATH (`npm i -g pnpm`). To remove:
+
+```bash
+dsh plugin --profile web remove dsh-token-monitor
+```
+
+After boot:
+
+- `GET /api/token-monitor/usage` — usage JSON (`sessions` / `total` / `activeSessionId` / `lastCall` / `live` / `context`)
+- `GET /api/token-monitor/balance` — balance JSON (`?force=1` forces a refresh)
+- Every page load injects the bottom-right widget
+
+### Install (manual fallback)
 
 Put the `token-monitor` directory next to the profile config:
 
@@ -34,11 +62,7 @@ Append to `$DSH_HOME/profiles/web/cordis.patch.yml`:
 > relative entries as ES modules, and Node does not support directory imports
 > (`ERR_UNSUPPORTED_DIR_IMPORT`).
 
-Restart `dsh web`. After boot:
-
-- `GET /api/token-monitor/usage` — usage JSON (`sessions` / `total` / `activeSessionId` / `lastCall` / `live` / `context`)
-- `GET /api/token-monitor/balance` — balance JSON (`?force=1` forces a refresh)
-- Every page load injects the bottom-right widget
+Restart `dsh web`.
 
 ### Requirements
 
@@ -65,7 +89,34 @@ MIT
 - **余额**：经 `credentials` 解析 `DEEPSEEK_API_KEY`，用 node 子进程（OpenSSL TLS）请求 `https://api.deepseek.com/user/balance`，60 秒缓存 + 手动刷新；API key 仅在本机传递，绝不出现在页面或响应中
 - **浮窗**：右下角固定卡片，2.5s 轮询用量、60s 轮询余额，可折叠为小药丸，样式使用主题 CSS 变量（`--dsw-alias-*`）自动适配明暗主题
 
-### 安装（本机部署）
+### 安装（CLI bundle 方式，推荐）
+
+本包是 **DSH bundle**：`package.json` 里声明了 `dsh.bundle.patch`，安装进 profile 后会自动进入
+该 profile 的 bundle 图层（`dsh plugin` 会自动把 bundle 追加到 `dsh.profile.bundles`）。
+
+```bash
+# 本地目录安装（pnpm 会把包复制进 profile）：
+dsh plugin --profile web add file:D:/path/to/dsh-token-monitor
+
+# 或直接从 GitHub 安装（无需本地检出）：
+dsh plugin --profile web add github:chencmb2077-ui/dsh-token-monitor
+
+dsh web        # 重启 profile 使 bundle 图层生效
+```
+
+需要 PATH 上有 pnpm（`npm i -g pnpm`）。卸载：
+
+```bash
+dsh plugin --profile web remove dsh-token-monitor
+```
+
+插件启动后：
+
+- `GET /api/token-monitor/usage` — 用量 JSON（sessions / total / activeSessionId / lastCall / live / context）
+- `GET /api/token-monitor/balance` — 余额 JSON（`?force=1` 强制刷新）
+- 每个页面加载时自动注入右下角浮窗
+
+### 安装（手动方式，备用）
 
 把 `token-monitor` 目录放到 profile 目录下：
 
@@ -84,11 +135,7 @@ $DSH_HOME/profiles/web/token-monitor/
 > 注意：`name` 要指向入口文件而不是目录——DSH 加载器把相对路径当 ES 模块导入，
 > Node 不支持目录导入（`ERR_UNSUPPORTED_DIR_IMPORT`）。
 
-重启 `dsh web` 即可。插件启动后：
-
-- `GET /api/token-monitor/usage` — 用量 JSON（sessions / total / activeSessionId / lastCall / live / context）
-- `GET /api/token-monitor/balance` — 余额 JSON（`?force=1` 强制刷新）
-- 每个页面加载时自动注入右下角浮窗
+重启 `dsh web` 即可。
 
 ### 要求
 
