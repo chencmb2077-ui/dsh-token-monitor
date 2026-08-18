@@ -1,0 +1,8 @@
+{
+  "name": "token-monitor",
+  "version": "1.0.0",
+  "description": "DSH static host plugin: real-time token usage + DeepSeek balance monitor injected into the web shell (bottom-right floating widget).",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT"
+}
