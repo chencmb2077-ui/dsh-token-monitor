@@ -12,7 +12,7 @@ const REPO_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const TAG = process.env.DSH_GH_TAG || 'v1.0.0'
 // The install zip carries exactly what you copy into $DSH_HOME/profiles/web/
 // (the scripts are repo tooling, not runtime files).
-const FILES = ['index.js', 'package.json', 'README.md', 'LICENSE', '.gitignore']
+const FILES = ['index.js', 'package.json', 'README.md', 'LICENSE', '.gitignore', 'cordis.patch.yml']
 
 const crc32 = (buf) => zlib.crc32(buf) >>> 0
 
