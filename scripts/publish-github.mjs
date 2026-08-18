@@ -21,12 +21,13 @@ const FILES = [
   'README.md',
   'LICENSE',
   '.gitignore',
+  'cordis.patch.yml',
   'scripts/build-zip.mjs',
   'scripts/publish-github.mjs',
   'scripts/upload-github.mjs',
 ]
 // The release zip asset: only the install files (what you copy into $DSH_HOME/profiles/web/).
-const ZIP_FILES = ['index.js', 'package.json', 'README.md', 'LICENSE', '.gitignore']
+const ZIP_FILES = ['index.js', 'package.json', 'README.md', 'LICENSE', '.gitignore', 'cordis.patch.yml']
 const ZIP = path.join(REPO_ROOT, 'dist', `dsh-token-monitor-${TAG}.zip`)
 
 async function gh(method, pathname, body, headers = {}) {
