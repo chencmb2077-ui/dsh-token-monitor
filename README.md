@@ -104,3 +104,20 @@ $DSH_HOME/profiles/web/token-monitor/
 ### 许可证
 
 MIT
+
+---
+
+## Publishing / 发布
+
+The repo ships its own publish tooling under `scripts/` — zero dependencies, plain Node + the GitHub REST API (no `git` binary needed). Both read the token from `DSH_GH_TOKEN` in the environment and never print it.
+
+仓库自带发布脚本（`scripts/` 目录），零依赖，纯 Node + GitHub REST API，不需要安装 `git`。token 从环境变量 `DSH_GH_TOKEN` 读取，脚本从不打印它。
+
+```bash
+export DSH_GH_TOKEN=ghp_xxx          # your GitHub PAT / 你的 GitHub 令牌
+node scripts/publish-github.mjs      # sync files + topics + release + zip asset（同步文件/话题/发布/zip 资产）
+node scripts/upload-github.mjs       # create (or reuse) repo and upload files only（仅建仓库 + 传文件）
+node scripts/build-zip.mjs           # just rebuild dist/dsh-token-monitor-<tag>.zip（仅重建 zip）
+```
+
+`DSH_GH_TAG` (default `v1.0.0`) controls the release tag. `publish-github.mjs` is idempotent — re-running updates files/topics and recreates the tag/release. `DSH_GH_TAG`（默认 `v1.0.0`）控制发布标签；`publish-github.mjs` 可重复执行，重复运行会更新文件/话题并重建 tag 与 release。
