@@ -1,8 +1,19 @@
 {
-  "name": "token-monitor",
+  "name": "dsh-token-monitor",
   "version": "1.0.0",
-  "description": "DSH static host plugin: real-time token usage + DeepSeek balance monitor injected into the web shell (bottom-right floating widget).",
+  "description": "DSH bundle plugin: real-time token usage + DeepSeek balance monitor injected into the web shell (bottom-right floating widget).",
   "type": "module",
   "main": "index.js",
-  "license": "MIT"
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
 }
