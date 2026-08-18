@@ -1,0 +1,8 @@
+# dsh-token-monitor bundle patch layer.
+# Applied automatically once this package is installed into a profile and listed
+# in dsh.profile.bundles (dsh plugin --profile <name> add <spec> does both).
+# Mounts the token-monitor host plugin, resolved as a bare package name from the
+# profile's node_modules.
+- insert:
+    - id: token-monitor
+      name: dsh-token-monitor
